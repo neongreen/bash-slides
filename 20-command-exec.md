@@ -191,11 +191,11 @@ QUESTIONS:
 
 ### The three standard descriptors
 
-| Handle | Name | Virtual file | Co to jest? |
-|-|-|-|-|
-| 0 | stdin | `/dev/stdin` | Input |
-| 1 | stdout | `/dev/stdout` | Output |
-| 2 | stderr | `/dev/stderr` | Error output |
+| Handle | Name | Co to jest? |
+|-|-|-|
+| 0 | stdin | Input |
+| 1 | stdout | Output |
+| 2 | stderr | Error output |
 
 ---
 
