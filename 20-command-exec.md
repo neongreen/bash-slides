@@ -63,9 +63,29 @@ ls *.txt
 
 ---
 
-### Glob expansion: bonus question
+### Quotes vs no quotes
 
-What is the difference between `ls a*` and `echo a*`?
+QUESTION: What will happen?
+
+```bash
+cd /tmp; touch a.txt b.txt c.mama
+
+ls "*.txt"    # instead of ls *.txt
+```
+
+---
+
+### All directories matching a glob
+
+QUESTION: How to list all directories matching a glob?
+
+```bash
+cd /tmp; mkdir -p Xdir Ydir Zdir
+
+ls *dir    # What will it do?
+```
+
+<!-- Answer: echo *dir or ls -d *dir -->
 
 ---
 
