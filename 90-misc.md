@@ -2,6 +2,9 @@
 Misc
 =======================================
 
+Misc TODOs:
+* Mention `&` in command-exec?
+
 ---
 
 Is a variable set?

@@ -2,7 +2,7 @@
 
 ## How to use?
 
-Run with `slides`.
+Run a specific file `slides` (supports hot-reloading), or all with `./all.sh`.
 
 Execute commands in slides with `Ctrl+E`.
 
