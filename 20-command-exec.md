@@ -11,6 +11,21 @@ What happens next?
 
 ---
 
+Command execution: PATH
+---------------------------------------
+
+Have to find the binary first.
+
+```bash
+echo $PATH    # Colon-separated dirs to look for binaries
+```
+
+```bash
+which ls      # Show us the path
+```
+
+---
+
 Command execution: arguments
 ---------------------------------------
 
@@ -60,7 +75,7 @@ ls *.txt
 
 ---
 
-### Quotes vs no quotes
+### Quotes vs. no quotes
 
 QUESTION: What will happen?
 
@@ -129,7 +144,7 @@ export LOGLEVEL=debug    # Will be passed to child processes
 ### Modifying env vars inside the process
 
 | | Can you modify env vars? |
-|----------|--------------------------|
+|-|-|
 | Yours | Yes |
 | Parent's | No |
 
@@ -162,8 +177,78 @@ Stored in the process descriptor (`task_struct` -> `fs_struct`) in Linux.
 Command execution: redirection
 ----------------------------------------
 
-Command execution: path lookup & builtins
-----------------------------------------
+```bash
+echo "Hello, world!" > /tmp/hello.txt
+```
+
+QUESTIONS:
+
+1. Who is responsible for creating the file?
+2. Who is responsible for writing to the file?
+3. Who is responsible for closing the file?
+
+---
+
+### The three standard descriptors
+
+| Handle | Name | Virtual file | Co to jest? |
+|-|-|-|-|
+| 0 | stdin | `/dev/stdin` | Input |
+| 1 | stdout | `/dev/stdout` | Output |
+| 2 | stderr | `/dev/stderr` | Error output |
+
+---
+
+### When is stderr used?
+
+Everything that is not the "result".
+
+| Thing | How it is conveyed |
+|-|-|
+| String result | stdout |
+| Success/failure | exit code |
+| Random enums | exit code |
+| Complaints | stderr |
+
+---
+
+### Redirection syntax
+
+| Syntax | Meaning |
+|-|-|
+| `cmd > file` | stdout -> file |
+| `cmd 2> file` | stderr -> file |
+| `cmd &> file` | both -> file |
+| `cmd < file` | file -> stdin |
+| `cmd 2>&1` | stderr -> stdout |
+
+Special "file": `/dev/null`.
+
+---
 
 Command execution: exit code
 ----------------------------------------
+
+```bash
+cd /tmp; echo hello > file.txt
+
+grep -q hello file.txt; echo hello=$?
+grep -q world file.txt; echo world=$?
+```
+
+---
+
+Command execution: builtins
+----------------------------------------
+
+Builtins are commands that the shell executes by itself.
+
+Examples:
+
+* `ls` is a binary.
+* `echo` is a builtin, but can be a binary (`/bin/echo`).
+* `time` is a reserved word, but can be a binary (`/usr/bin/time`).
+
+QUESTION:
+
+* `cd` can't be a binary. Has to be a builtin. Why?
