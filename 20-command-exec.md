@@ -19,10 +19,7 @@ Command execution: arguments
 int main(int argc, char *argv[]) { ... }
 ```
 
-<!--
-Arguments are passed by the kernel (execve syscall). Also see:
-https://decasia.org/tech/2023/03/where-do-env-vars-come-from.html
--->
+<!-- Arguments are passed by the kernel (execve syscall) -->
 
 ---
 
@@ -91,6 +88,76 @@ ls *dir    # What will it do?
 
 Command execution: environment variables
 ----------------------------------------
+
+Environment is a list of key-value pairs passed to each process.
+
+```bash
+env | head -5    # Let's see some env vars
+```
+
+<!-- https://decasia.org/tech/2023/03/where-do-env-vars-come-from.html -->
+
+---
+
+### Passing env vars
+
+Bash:
+
+```bash
+LOGLEVEL=debug ./myapp
+```
+
+Syscall:
+
+```c
+int execve(const char *pathname,
+           char *const _Nullable argv[],
+           char *const _Nullable envp[]);
+```
+
+---
+
+### Exporting vars
+
+```bash
+LOGLEVEl=debug           # Will *not* be passed to child processes
+export LOGLEVEL=debug    # Will be passed to child processes
+```
+
+---
+
+### Modifying env vars inside the process
+
+| | Can you modify env vars? |
+|----------|--------------------------|
+| Yours | Yes |
+| Parent's | No |
+
+*Fig. 1: The Table of Possibility of Modification of Vars of Env*
+
+---
+
+### Env var inheritance
+
+User-space convention.
+
+`libc` and everyone else will pass env vars to child processes.
+Kernel doesn't care if you do it or not.
+
+---
+
+Command execution: working directory
+----------------------------------------
+
+Each process has a working directory.
+
+Stored in the process descriptor (`task_struct` -> `fs_struct`) in Linux.
+
+```bash
+(cd /; ls -l | head -5)
+```
+
+---
 
 Command execution: redirection
 ----------------------------------------
